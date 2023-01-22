@@ -1,0 +1,102 @@
+{
+    "E": {
+        "num": 12,
+        "worth": 1
+    },
+    "A": {
+        "num": 9,
+        "worth": 1
+    },
+    "I": {
+        "num": 9,
+        "worth": 1
+    },
+    "O": {
+        "num": 8,
+        "worth": 1
+    },
+    "N": {
+        "num": 6,
+        "worth": 1
+    },
+    "T": {
+        "num": 6,
+        "worth": 1
+    },
+    "L": {
+        "num": 4,
+        "worth": 1
+    },
+    "S": {
+        "num": 4,
+        "worth": 1
+    },
+    "U": {
+        "num": 4,
+        "worth": 1
+    },
+    "D": {
+        "num": 4,
+        "worth": 2
+    },
+    "G": {
+        "num": 3,
+        "worth": 2
+    },
+    "B": {
+        "num": 2,
+        "worth": 3
+    },
+    "C": {
+        "num": 2,
+        "worth": 3
+    },
+    "M": {
+        "num": 2,
+        "worth": 3
+    },
+    "P": {
+        "num": 2,
+        "worth": 3
+    },
+    "F": {
+        "num": 2,
+        "worth": 4
+    },
+    "H": {
+        "num": 2,
+        "worth": 4
+    },
+    "V": {
+        "num": 2,
+        "worth": 4
+    },
+    "W": {
+        "num": 2,
+        "worth": 4
+    },
+    "Y": {
+        "num": 2,
+        "worth": 4
+    },
+    "K": {
+        "num": 1,
+        "worth": 5
+    },
+    "J": {
+        "num": 1,
+        "worth": 8
+    },
+    "X": {
+        "num": 1,
+        "worth": 8
+    },
+    "Q": {
+        "num": 1,
+        "worth": 10
+    },
+    "Z": {
+        "num": 1,
+        "worth": 10
+    }
+}
