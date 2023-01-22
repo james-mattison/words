@@ -1,5 +1,6 @@
 from .tile import LETTER_SCORES
 
+
 class Word:
     """
     Methods to deal with the validity of a word that is played, and to determine
@@ -7,10 +8,11 @@ class Word:
     """
 
     @staticmethod
-    def compute_points(word):
+    def compute_points(word: str):
         points = 0
         for i in range(len(word)):
             v = LETTER_SCORES[word[i]]['worth']
             print(f"{word[i]} -> {v} points")
             points += v
         return points
+

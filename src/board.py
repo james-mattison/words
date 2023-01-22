@@ -17,6 +17,8 @@ class Board:
         Place a Tile object that represents <letter> on the board at (xpos, ypos)
     """
 
+    _played_coordinates = []
+
     def __init__(self, x_limit = 15, y_limit = 15):
         self.x = [n for n in range(15)]
         self.y = [n for n in range(15)]
@@ -54,7 +56,7 @@ class Board:
         if isinstance(letter, Tile) and self.grid[y][x] != " " and self.grid[y][x].get_letter() != letter.get_letter():
             print(f"Already have tile {self.grid[y][x]} at x: {x}, y: {y}")
             return False
-        # print(f"Placing {letter} at x: {x} and y: {y}"
+
         if not isinstance(letter, Tile):
             letter = Tile(letter)
         self.grid[y][x]= letter
@@ -62,7 +64,10 @@ class Board:
             letter.set_location(x, y)
         return letter.get_points()
 
-    def print_board(self, silent = False):
+    def print_board(self, silent: bool = False) -> str:
+        """
+        Print a string representation of the board.
+        """
         s = ""
         for i in range(len(self.grid)):
             for p in range(len(self.grid[i])):
@@ -78,28 +83,6 @@ class Board:
             if not silent:
                 print()
         return s
-
-    def play_horizontal_word(self, word: str, x_start, y_pos):
-        """
-        Iteratively call set_letter_position for each letter in a word that is being placed horizontally.
-
-        <word> needs to be a string representing a word to play.
-        <x_start> represents the X-axis position for the start of the word. This is where the first letter
-                  will be placed. Letters will be successively placed starting at this position until the end of
-                  the word is reached.
-        <y_pos>   The y-axis value for the whole word (since this is a horizonal word, this value will not change)
-
-        """
-        points = 0
-        if x_start + len(word) > 15:
-            print(f"Word {word} too long to fit on board!")
-            return False
-        for i in range(len(word)):
-            tile = Tile(word[i])
-            self.set_letter_position(tile, x_start + i, y_pos)
-            points += tile.get_points()
-        print(f"Played '{word}' for {points} points.")
-        return points
 
     def tile_in_horizontal_word(self, xpos, ypos, vertical = False):
         """
@@ -243,6 +226,28 @@ class Board:
         print(f"Played '{word}' for {points} points")
         return points
 
+    def play_horizontal_word(self, word: str, x_start, y_pos):
+        """
+        Iteratively call set_letter_position for each letter in a word that is being placed horizontally.
+
+        <word> needs to be a string representing a word to play.
+        <x_start> represents the X-axis position for the start of the word. This is where the first letter
+                  will be placed. Letters will be successively placed starting at this position until the end of
+                  the word is reached.
+        <y_pos>   The y-axis value for the whole word (since this is a horizonal word, this value will not change)
+
+        """
+        points = 0
+        if x_start + len(word) > 15:
+            print(f"Word {word} too long to fit on board!")
+            return False
+        for i in range(len(word)):
+            tile = Tile(word[i])
+            self.set_letter_position(tile, x_start + i, y_pos)
+            points += tile.get_points()
+        print(f"Played '{word}' for {points} points.")
+        return points
+
     def get_board(self) -> list:
         """
         Return the matrix representing the board.
@@ -255,24 +260,3 @@ class Board:
         """
         return self.print_board(silent = True)
 
-#
-# def test():
-#     b = Board()
-#     b.play_horizontal_word("FART", 7, 7)
-#     b.play_vertical_word("FACT", 7, 7)
-#
-#     def inword(o):
-#         if o is False:
-#             print("Not in word")
-#         else:
-#             print(o)
-#
-#     inword(b.tile_in_horizontal_word(7, 7))
-#     inword(b.tile_in_vertical_word(7, 7))
-#     inword(b.tile_in_horizontal_word(5, 7))
-#     inword(b.tile_in_vertical_word(5, 7))
-#     inword(b.tile_in_horizontal_word(5, 8))
-#     inword(b.tile_in_vertical_word(7, 8))
-#     inword(b.tile_in_vertical_word(7, 9))
-#     inword(b.tile_in_horizontal_word(7, 10))
-#     inword(b.tile_in_vertical_word(10, 7))
