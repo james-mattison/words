@@ -85,7 +85,7 @@ class Board:
                 print()
         return s
 
-    def play_horizontal_word(self, word: str, x_start, y_pos):
+    def play_vertical_word(self, word: str, x_start, y_pos):
         """
         Iteratively call set_letter_position for each letter in a word that is being placed horizontally.
 
@@ -232,7 +232,7 @@ class Board:
         """
         return self.tile_in_horizontal_word(xpos, ypos, vertical = True)
 
-    def play_vertical_word(self, word: str, x_pos: int, y_start: int):
+    def play_horizontal_word(self, word: str, x_pos: int, y_start: int):
         """
         play <word> vertically.
         x_pos represents the starting position on the X axis, y_start represents the position on the Y.
