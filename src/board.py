@@ -7,10 +7,6 @@ from .tile import Tile, Tiles
 #
 
 class Board:
-<<<<<<< HEAD
-=======
-    ""
->>>>>>> 0d15f7500ee4eb0a0540b8e685e017bba24e4254
     """
     Class representing the grid that is used to play the game.
     
@@ -20,11 +16,9 @@ class Board:
       set_letter_placement <letter> <xpos> <ypos>
         Place a Tile object that represents <letter> on the board at (xpos, ypos)
     """
-<<<<<<< HEAD
 
     _played_coordinates = []
-=======
->>>>>>> 0d15f7500ee4eb0a0540b8e685e017bba24e4254
+
 
     def __init__(self, x_limit = 15, y_limit = 15):
         self.x = [n for n in range(15)]
@@ -91,8 +85,6 @@ class Board:
                 print()
         return s
 
-<<<<<<< HEAD
-=======
     def play_horizontal_word(self, word: str, x_start, y_pos):
         """
         Iteratively call set_letter_position for each letter in a word that is being placed horizontally.
@@ -115,7 +107,6 @@ class Board:
         print(f"Played '{word}' for {points} points.")
         return points
 
->>>>>>> 0d15f7500ee4eb0a0540b8e685e017bba24e4254
     def tile_in_horizontal_word(self, xpos, ypos, vertical = False):
         """
         Given <xpos> and <ypos>, does the tile that these coordinates represent on the board
@@ -258,7 +249,6 @@ class Board:
         print(f"Played '{word}' for {points} points")
         return points
 
-<<<<<<< HEAD
     def play_horizontal_word(self, word: str, x_start, y_pos):
         """
         Iteratively call set_letter_position for each letter in a word that is being placed horizontally.
@@ -281,8 +271,6 @@ class Board:
         print(f"Played '{word}' for {points} points.")
         return points
 
-=======
->>>>>>> 0d15f7500ee4eb0a0540b8e685e017bba24e4254
     def get_board(self) -> list:
         """
         Return the matrix representing the board.
@@ -294,28 +282,3 @@ class Board:
         Print the board as a 15x15 square, with each letter played represented.
         """
         return self.print_board(silent = True)
-
-<<<<<<< HEAD
-=======
-#
-# def test():
-#     b = Board()
-#     b.play_horizontal_word("FART", 7, 7)
-#     b.play_vertical_word("FACT", 7, 7)
-#
-#     def inword(o):
-#         if o is False:
-#             print("Not in word")
-#         else:
-#             print(o)
-#
-#     inword(b.tile_in_horizontal_word(7, 7))
-#     inword(b.tile_in_vertical_word(7, 7))
-#     inword(b.tile_in_horizontal_word(5, 7))
-#     inword(b.tile_in_vertical_word(5, 7))
-#     inword(b.tile_in_horizontal_word(5, 8))
-#     inword(b.tile_in_vertical_word(7, 8))
-#     inword(b.tile_in_vertical_word(7, 9))
-#     inword(b.tile_in_horizontal_word(7, 10))
-#     inword(b.tile_in_vertical_word(10, 7))
->>>>>>> 0d15f7500ee4eb0a0540b8e685e017bba24e4254
