@@ -249,28 +249,6 @@ class Board:
         print(f"Played '{word}' for {points} points")
         return points
 
-    def play_horizontal_word(self, word: str, x_start, y_pos):
-        """
-        Iteratively call set_letter_position for each letter in a word that is being placed horizontally.
-
-        <word> needs to be a string representing a word to play.
-        <x_start> represents the X-axis position for the start of the word. This is where the first letter
-                  will be placed. Letters will be successively placed starting at this position until the end of
-                  the word is reached.
-        <y_pos>   The y-axis value for the whole word (since this is a horizonal word, this value will not change)
-
-        """
-        points = 0
-        if x_start + len(word) > 15:
-            print(f"Word {word} too long to fit on board!")
-            return False
-        for i in range(len(word)):
-            tile = Tile(word[i])
-            self.set_letter_position(tile, x_start + i, y_pos)
-            points += tile.get_points()
-        print(f"Played '{word}' for {points} points.")
-        return points
-
     def get_board(self) -> list:
         """
         Return the matrix representing the board.
