@@ -40,19 +40,34 @@ class Player(object):
             cb = board.play_vertical_word
 
         holding = list(self.get_hand().keys())
-        for letter in word:
-            if not letter in holding:
+        need_pop = []
+
+        for i, letter in enumerate(word):
+            valid = False
+
+
+            in_h = board.tile_in_horizontal_word(x_pos, y_pos, vertical)
+            in_v = board.tile_in_vertical_word(x_pos, y_pos)
+
+            if in_h is not False or in_v is not False:
+                valid = True
+            elif letter in self.hand.keys():
+                valid = True
+                need_pop.append(letter)
+
+            if not valid:
                 print(f"Cannot play {word}. Missing letter {letter} in hand: {', '.join(holding)}")
                 return False
+
 
         points = cb(word, x_pos, y_pos)
         self.add_points(points)
 
-        for letter in word:
-            if letter in self.hand.keys():
-                self.hand.pop(letter)
+        for n in need_pop:
+            print("Popping: ", self.hand[n])
+            self.hand.pop(n)
 
-        self.draw_to_initial_hand()
+        return True
 
     def get_letters(self):
         letters = []

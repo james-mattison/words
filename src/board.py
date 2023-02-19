@@ -57,7 +57,7 @@ class Board:
             return False
         if isinstance(letter, Tile) and self.grid[y][x].get_letter() != " " and self.grid[y][x].get_letter() != letter.get_letter():
             print(f"Already have tile {self.grid[y][x]} at x: {x}, y: {y}")
-            return False
+            return self.grid[y][x].get_letter()
 
         if not isinstance(letter, Tile):
             letter = Tile(letter)
@@ -112,7 +112,7 @@ class Board:
         print(f"Played '{word}' for {points} points.")
         return points
 
-    def tile_in_horizontal_word(self, xpos, ypos, vertical = False):
+    def tile_in_horizontal_word(self, ypos, xpos, vertical = False):
         """
         Given <xpos> and <ypos>, does the tile that these coordinates represent on the board
         contain a Tile object? Or a blank space?
@@ -147,7 +147,7 @@ class Board:
             xpos, ypos = ypos, xpos
 
         # Is there a Tile already played here?
-        if self.grid[ypos][xpos] != " ":
+        if self.grid[ypos][xpos].get_letter() != " ":
             # Yes, there is. Get the character that this tile represents...
             word += self.grid[ypos][xpos].get_letter()
 
@@ -231,7 +231,7 @@ class Board:
             # We got jadk shit - this square is blank and hasn't been played.
             return False
 
-    def tile_in_vertical_word(self, xpos, ypos):
+    def tile_in_vertical_word(self, ypos, xpos):
         """
         Is this tile in a vertical word? See above function for more.
         """
@@ -262,6 +262,8 @@ class Board:
         """
         return self.grid
 
+    def get_pos(self, x_pos, y_pos):
+        return self.grid[y_pos][x_pos]
     def __str__(self) -> str:
         """
         Print the board as a 15x15 square, with each letter played represented.
