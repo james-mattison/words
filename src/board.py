@@ -1,5 +1,5 @@
 from .tile import Tile, Tiles
-
+from .word import Word
 #
 # board.py
 #   This file contains the Board class, which is used to represent the grid for the game
@@ -57,7 +57,8 @@ class Board:
             return False
         if isinstance(letter, Tile) and self.grid[y][x].get_letter() != " " and self.grid[y][x].get_letter() != letter.get_letter():
             print(f"Already have tile {self.grid[y][x]} at x: {x}, y: {y}")
-            return self.grid[y][x].get_letter()
+            print("FUCK")
+            return self.grid[y][x].get_points()
 
         if not isinstance(letter, Tile):
             letter = Tile(letter)
@@ -206,6 +207,12 @@ class Board:
                 while x <= 15 and self.grid[ypos][x + 1].get_letter() != " ":
                     x += 1
                     word += self.grid[ypos][x].get_letter()
+
+        # Finally, we do a calculation to determine what this word is worth without this letter.
+        points = 0
+        if word:
+            points = Word.compute_points(str(word)) - self.grid[ypos][xpos].get_letter()
+
         # in the first conditional, starting with "R" in "ART", we have AR
         # in the second conditional, starting with "R" in "ART", we have "RT"
         # Concatenate this together to form the representive word...
@@ -225,7 +232,8 @@ class Board:
                 "tile": self.grid[ypos][xpos], # Tile object
                 "letter": self.grid[ypos][xpos].get_letter(), # Letter that the Tile represents
                 "word": word, # The complete word, horizontally... if <vertical> == True, then the complete word, vertically
-                "index": idx # the position  this letter appears int he word
+                "index": idx, # the position  this letter appears int he word
+                "points": points # the number of points in the word without this letter
             }
         else:
             # We got jadk shit - this square is blank and hasn't been played.
@@ -255,6 +263,11 @@ class Board:
             points += tile.get_points()
         print(f"Played '{word}' for {points} points")
         return points
+
+    def letter_in_word(self, xpos: int, ypos: int) -> dict:
+        h = self.tile_in_horizontal_word(xpos, ypos)
+        v = self.tile_in_vertical_word(xpos, ypos)
+
 
     def get_board(self) -> list:
         """

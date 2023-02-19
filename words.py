@@ -12,8 +12,8 @@ words.py: A WordsWithFriends knockoff.
 
 def spaghetti_test():
 
-    player_1 = Player("Adam")
-    player_2 = Player("Eve")
+    player_1 = Player(input("Player 1 Name?: "))
+    player_2 = Player(input("Player 2 Name?: "))
 
 
     print(f"{player_1.get_name():<30} {player_2.get_name():>30}")

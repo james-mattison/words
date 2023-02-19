@@ -8,7 +8,7 @@ class Dictionary:
     def __new__(cls, *args, **kwargs):
         """
         Create this as a singleton. We only want to load all the dictionaries,
-        which contain a little over 100,000 words each, one time if we can avoid it.
+        which contain a little over 100,000 words total, ONLY time if we can.
         """
         if not hasattr(cls, 'instance'):
             cls.instance = super().__new__(cls)
