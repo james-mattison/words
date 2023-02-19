@@ -1,4 +1,4 @@
 from .tile import *
 from .word import *
-from .play import *
+from .player import *
 from .board import *

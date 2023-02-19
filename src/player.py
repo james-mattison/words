@@ -5,9 +5,15 @@ from .word import Word
 
 class Player(object):
 
-    def __init__(self):
+    def __init__(self, name: str):
+        self.name = name
         self.hand = {}
         self.score = 0
+
+        self.draw_to_initial_hand()
+
+    def get_name(self):
+        return self.name
 
     def draw_tile(self):
         if len(self.hand.keys()) > 7:
@@ -26,6 +32,8 @@ class Player(object):
     def get_hand(self):
         return self.hand
 
+    def get_score(self):
+        return self.score
     def play_word(self,word,  x_pos, y_pos, vertical = False):
         cb = board.play_horizontal_word
         if vertical:
@@ -46,5 +54,11 @@ class Player(object):
 
         self.draw_to_initial_hand()
 
+    def get_letters(self):
+        letters = []
+
+        for k in self.hand.keys():
+            letters.append(k)
+        return letters
 
 

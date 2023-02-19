@@ -121,6 +121,10 @@ LETTER_SCORES = {
     "BLANK": {
         "num": 10,
         "worth": 1
+    },
+    " ": {
+        "num": 0,
+        "worth": 0
     }
 }
 
@@ -169,6 +173,8 @@ class Tile:
 
     def __str__(self):
         return self.get_letter()
+
+
 
 class Tiles:
     """

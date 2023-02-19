@@ -27,7 +27,7 @@ class Board:
         for i in range(15):
             self.grid.append([])
             for p in range(15):
-                self.grid[i].append(' ')
+                self.grid[i].append(Tile(' '))
 
     def set_letter_position(self, letter: str or Tile, y: int, x: int) -> bool or int:
         """
@@ -51,10 +51,11 @@ class Board:
         if y > 15 or y < 0:
             print("Invalid y")
             return False
+
         if isinstance(self.grid[y][x], str) and self.grid[y][x] != letter and self.grid[y][x] != " ":
             print(f"Already have letter {self.grid[x][y]}at {x},{y}")
             return False
-        if isinstance(letter, Tile) and self.grid[y][x] != " " and self.grid[y][x].get_letter() != letter.get_letter():
+        if isinstance(letter, Tile) and self.grid[y][x].get_letter() != " " and self.grid[y][x].get_letter() != letter.get_letter():
             print(f"Already have tile {self.grid[y][x]} at x: {x}, y: {y}")
             return False
 
@@ -72,7 +73,7 @@ class Board:
         s = ""
         for i in range(len(self.grid)):
             for p in range(len(self.grid[i])):
-                if self.grid[i][p] == ' ':
+                if self.grid[i][p].get_letter() == ' ':
                     if not silent:
                         print("| ", end = "", flush = True)
                     s += "| "
@@ -102,8 +103,12 @@ class Board:
             return False
         for i in range(len(word)):
             tile = Tile(word[i])
-            self.set_letter_position(tile, x_start + i, y_pos)
-            points += tile.get_points()
+            num_points = self.set_letter_position(tile, x_start + i, y_pos)
+
+            if num_points is not False:
+                points += tile.get_points()
+            else:
+                print(f"ASSIGNED FALSE BECAUSS {tile} on {x_start + 1}, {y_pos} is not worth shit.")
         print(f"Played '{word}' for {points} points.")
         return points
 
@@ -157,7 +162,7 @@ class Board:
             # Move left along the X axis
             x = xpos - 1
 
-            if self.grid[ypos][x] not in ['', ' ']:
+            if self.grid[ypos][x].get_letter() not in ['', ' ']:
                 # We have a literal letter one square to the left.
                 word += self.grid[ypos][x].get_letter()
 
@@ -171,7 +176,7 @@ class Board:
                     x -= 1
 
                     # blank - means that the previous square is the beginning of the word.
-                    if self.grid[ypos][x] == " " or self.grid[ypos][x] == "":
+                    if self.grid[ypos][x].get_letter() == " " or self.grid[ypos][x].get_letter() == "":
                         break
 
                     # the x'th letter of the word, represented by xpos, ypos on the grid?
@@ -192,13 +197,13 @@ class Board:
             x = xpos + 1 # Letter to the right (or above, if vertical == True)
 
             # If it's a blank square then we have reached the end of the word.
-            if self.grid[ypos][x] != " ":
+            if self.grid[ypos][x].get_letter() != " ":
                 # If it's not blank, then add it to word. This part of the conditional will catch the "T" in the
                 # word "ART" above"
                 word += self.grid[ypos][x].get_letter()
 
                 # Do we have more letters after this?
-                while x <= 15 and self.grid[ypos][x + 1] != " ":
+                while x <= 15 and self.grid[ypos][x + 1].get_letter() != " ":
                     x += 1
                     word += self.grid[ypos][x].get_letter()
         # in the first conditional, starting with "R" in "ART", we have AR
@@ -244,7 +249,9 @@ class Board:
             return False
         for i in range(len(word)):
             tile = Tile(word[i])
-            self.set_letter_position(tile, x_pos, y_start + i)
+            p = self.set_letter_position(tile, x_pos, y_start + i)
+            if p is False:
+                continue
             points += tile.get_points()
         print(f"Played '{word}' for {points} points")
         return points
