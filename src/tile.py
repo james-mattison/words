@@ -117,6 +117,10 @@ LETTER_SCORES = {
     "Z": {
         "num": 1,
         "worth": 10
+    },
+    "BLANK": {
+        "num": 10,
+        "worth": 1
     }
 }
 

@@ -1,5 +1,7 @@
 from .tile import Tiles
 from .board import board
+from .word import Word
+
 
 class Player(object):
 
