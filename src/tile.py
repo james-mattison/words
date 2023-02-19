@@ -177,16 +177,22 @@ class Tiles:
     As each player starts their turn, a Tile is popped from this array and added
     to the player's hand.
     """
+
+    _tiles = []
+
     def __init__(self):
-        self._tiles = []
-        for key, value in LETTER_SCORES.items():
-            for instance in range(value['num']):
-                tile = Tile(key)
-                self._tiles.append(tile)
+        if not self._tiles:
+            for key, value in LETTER_SCORES.items():
+                for instance in range(value['num']):
+                    tile = Tile(key)
+                    self._tiles.append(tile)
 
     def draw_tile(self):
         """
         Draw a new Tile, popping it off of the potential in-game tiles.
         """
+        if len(self._tiles) == 0:
+            print("Drew all the tiles. Game over.")
+            return False
         idx = random.randint(0, len(self._tiles))
         return self._tiles.pop(idx)

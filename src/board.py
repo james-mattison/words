@@ -260,3 +260,8 @@ class Board:
         Print the board as a 15x15 square, with each letter played represented.
         """
         return self.print_board(silent = True)
+
+
+# * * * THE GLOBAL BOARD OBJECT * * *
+board = Board()
+# * * * * * * * * * * * * * * * * * *
