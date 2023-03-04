@@ -12,9 +12,9 @@ My proposed solution is that I create a version of WordsWithFriends that does no
 
 ![Play1](etc/play0.png)
 
-![Play2](etc/play0.png)
+![Play2](etc/play1.png)
 
-![Play3](etc/play0.png)
+![Play3](etc/play2.png)
 
 ## Does This Work?
 
