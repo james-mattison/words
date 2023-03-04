@@ -3,8 +3,6 @@
 from src.board import board
 from src.tile import Tiles, Tile
 from src.player import Player
-from src.word import Word
-
 
 """
 words.py: A WordsWithFriends knockoff.
@@ -42,6 +40,7 @@ def spaghetti_test():
             no = ["n", "N", "No", "no"]
             if yn in yes:
                 v = True
+                print("Playing vertically")
             elif yn in no:
                 v = False
             else:

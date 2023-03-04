@@ -1,4 +1,4 @@
-from .tile import LETTER_SCORES
+from .tile import LETTER_SCORES, Modifiers
 import os
 import json
 
@@ -35,7 +35,7 @@ class Dictionary:
 
     def valid_word(self, word: str):
         key = word[0].upper()
-        return word.upper() in self.dictionaries[key]
+        return word.lower() in self.dictionaries[key].keys()
 
 
 class Word(Dictionary):
@@ -43,6 +43,7 @@ class Word(Dictionary):
     Methods to deal with the validity of a word that is played, and to determine
     the value of each word a player plays, less the value of points that were already on the board.
     """
+
 
     @staticmethod
     def compute_points(word: str):
@@ -55,4 +56,3 @@ class Word(Dictionary):
             print(f"{word[i]} -> {v} points")
             points += v
         return points
-

@@ -466,6 +466,17 @@ TILE_MODIFIERS = {
     }
 }
 
+
+class Modifiers:
+
+    @staticmethod
+    def get_modifier(x, y):
+        if TILE_MODIFIERS.get(str(y)):
+            if TILE_MODIFIERS[str(y)].get(str(x)):
+                return TILE_MODIFIERS[str(y)][str(x)]
+
+
+
 class Tile:
     """
     This represents a single tile, that has a letter assigned.
@@ -476,7 +487,8 @@ class Tile:
     """
 
     def __init__(self, character):
-        self.character = character
+
+        self.character = character.upper()
         self.points = LETTER_SCORES[character]['worth']
         self.xpos = None
         self.ypos = None
@@ -499,6 +511,12 @@ class Tile:
         """
         self.xpos = x
         self.ypos = y
+
+    def get_location(self):
+        """
+        Return the X, Y coordinates of this tile.
+        """
+        return self.xpos, self.ypos
 
     def is_played(self) -> bool:
         """
@@ -527,7 +545,7 @@ class Tiles:
     """
 
     _tiles = []
-
+    _played = []
     def __init__(self):
         if not self._tiles:
             for key, value in LETTER_SCORES.items():
@@ -543,4 +561,6 @@ class Tiles:
             print("Drew all the tiles. Game over.")
             return False
         idx = random.randint(0, len(self._tiles)) - 1
-        return self._tiles.pop(idx)
+        tile = self._tiles.pop(idx)
+        self._played.append(tile)
+        return tile
