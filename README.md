@@ -3,12 +3,19 @@
 
 ## Description
 
-My girlfriend and I play WordsWithFriends a lot. I absolutely hate the ads, and am considering leaving here because of them.
+This repository contains a **WordsWithFriends** knockoff. 
 
-My proposed solution is that I create a version of WordsWithFriends that does not have the ads (or I die alone).
+This project has two componentes: the **game server**, written in Python/Flask, and the **game client**, written in Javascript/ReactJS.
 
-## Some Pics:
+A further testing client exists that provides a TUI to play the game as well.
 
+
+### Installation:
+
+- You must run `setup-dictionaries.sh` once in order to unpack the dictionaries that the game uses.
+- `./words.py`
+
+### Testing Client
 
 ![Play1](etc/play0.png)
 
@@ -16,11 +23,8 @@ My proposed solution is that I create a version of WordsWithFriends that does no
 
 ![Play3](etc/play2.png)
 
-## Does This Work?
+## Known Issues:
 
-Kind of. 
-
-## What needs to be implemented to finish this:
-
- - modifiers for the squares. Each Tile object is correctly calculated, but I haven't implemented Double Word Score / Double Letter Score modifiers yet.
-
+___11-28-2023:___
+- The `[BLANK]` tile needs to be properly implemented.
+- Words that start on a previously-played tile at position x, y suffer from a bug where the current character at X, Y is not counted against the player's hand. This is a breaking issue.
