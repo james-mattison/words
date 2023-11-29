@@ -2,6 +2,9 @@ from .word import Dictionary
 from .player import Player
 from .board import board
 
+"""
+game.py:    This file contains the main class, `Game`, that is used to run the game."""
+
 
 class Game:
 
@@ -20,18 +23,12 @@ class Game:
         print(f"Letters: {player.get_letters()}")
 
         if not x_pos:
-            x_pos = input("X: ")
+            x_pos = int(input("X: "))
         if not y_pos:
-            y_pos = input("Y: ")
+            y_pos = int(input("Y: "))
         if vertical is None:
             vertical =  not input("Vertical? ").upper() in ["Y", "YES"]
 
-        for n, point in {"x": x_pos, "y": y_pos}.items():
-            try:
-                int(point)
-            except (TypeError, ValueError) as e:
-                print(e)
-                print(f"{n} invalid value {point}, expecting an int")
 
         return x_pos, y_pos, vertical
 

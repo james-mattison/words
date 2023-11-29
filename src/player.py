@@ -56,7 +56,7 @@ class Player(object):
         """determine if we have this letter ot play"""
         return letter.upper() in self.hand.keys()
 
-    def can_play(self, word: str) -> bool:
+    def invalid_word(self, word: str) -> bool:
         """
         Determine whether all the letters on <word> are in the player's hand.
         """
@@ -78,7 +78,7 @@ class Player(object):
 
     def play_word(self, word,  x_pos, y_pos, vertical = False):
 
-        missing = self.can_play(word)
+        missing = self.invalid_word(word)
         if missing:
             self.msg = red(f"Couldn't play word - missing letters {', '.join(missing)} from your hand!")
             return False

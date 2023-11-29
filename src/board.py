@@ -104,7 +104,7 @@ class Board:
             print(f"INVALID WORD: {word}!")
             return 0
 
-        if not player.can_play(word):
+        if player.invalid_word(word):
             player.print_msg()
             return False
 
@@ -266,7 +266,7 @@ class Board:
             print(f"INVALID WORD: {word}!")
             return 0
 
-        invalid = player.can_play(word)
+        invalid = player.invalid_word(word)
         if invalid:
             player.print_msg()
             return False

@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+
+
 from src.game import Game
 
-g = Game()
-g.run_game()
+if __name__ == "__main__":
+    Game().run_game()
