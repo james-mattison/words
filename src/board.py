@@ -264,7 +264,7 @@ class Board:
         dictionary = Dictionary()
         if not dictionary.valid_word(word):
             print(f"INVALID WORD: {word}!")
-            return 0
+            return False
 
         invalid = player.invalid_word(word)
         if invalid:
@@ -272,6 +272,7 @@ class Board:
             return False
 
         points = 0
+        to_pop = []
         if y_start + len(word) > 15:
             print(f"Word {word} too long to fit on board!")
             return False
@@ -280,11 +281,22 @@ class Board:
             p = self.set_letter_position(tile, x_pos, y_start + i)
             if p is False:
                 continue
+            else:
+                to_pop.append(word[i])
             points += tile.get_points()
+
+        # Pop the played letters off
+        for t in to_pop:
+            player.hand.pop(t)
+        # Draw back to seven
+        player.draw_to_initial_hand()
+
         print(f"Played '{word}' for {points} points")
+        player.add_points(points)
+
         return points
 
-    def letter_in_word(self, xpos: int, ypos: int) -> dict:
+    def tile_in_word(self, xpos: int, ypos: int) -> dict:
         h = self.tile_in_horizontal_word(xpos, ypos)
         v = self.tile_in_vertical_word(xpos, ypos)
 

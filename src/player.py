@@ -60,12 +60,13 @@ class Player(object):
         """
         Determine whether all the letters on <word> are in the player's hand.
         """
-
+        num_blanks = len([w for w in self.hand.keys() if w == "[BLANK]"])
         bad = []
         for char in word:
             if not char in self.hand.keys():
                 bad.append(char)
         if bad:
+            self.msg = f"Failed - missing characters in player's hand: {','.join(bad)}"
             return bad
         else:
             return False
