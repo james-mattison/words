@@ -1,5 +1,5 @@
 from .tile import Tile, Tiles
-from .word import Word
+from .word import Word, Dictionary, Modifiers
 #
 # board.py
 #   This file contains the Board class, which is used to represent the grid for the game
@@ -71,23 +71,23 @@ class Board:
         """
         Print a string representation of the board.
         """
-        s = ""
-        for i in range(len(self.grid)):
-            for p in range(len(self.grid[i])):
-                if self.grid[i][p].get_letter() == ' ':
+        board_as_str = ""
+        for y in range(len(self.grid)):                             # Every row in the board
+            for x in range(len(self.grid[y])):                      # Every column in the board
+                if self.grid[y][x].get_letter() == ' ':
                     if not silent:
-                        print("| ", end = "", flush = True)
-                    s += "| "
+                        print("| ", end = "", flush = True)         # Print the left | of the board
+                    board_as_str += "| "                            # Print the right | of the board
                 else:
                     if not silent:
-                        print(f"|{self.grid[i][p]}", end = "", flush = True)
-                    s += f"|{self.grid[i][p]}"
-            s += "\n"
+                        print(f"|{self.grid[y][x]}", end = "", flush = True)
+                    board_as_str += f"|{self.grid[y][x]}"
+            board_as_str += "\n"
             if not silent:
                 print()
-        return s
+        return board_as_str
 
-    def play_vertical_word(self, word: str, x_start, y_pos):
+    def play_vertical_word(self, player, word: str, x_start, y_pos):
         """
         Iteratively call set_letter_position for each letter in a word that is being placed horizontally.
 
@@ -98,6 +98,16 @@ class Board:
         <y_pos>   The y-axis value for the whole word (since this is a horizonal word, this value will not change)
 
         """
+
+        dictionary = Dictionary()
+        if not dictionary.valid_word(word):
+            print(f"INVALID WORD: {word}!")
+            return 0
+
+        if player.invalid_word(word):
+            player.print_msg()
+            return False
+
         points = 0
         if x_start + len(word) > 15:
             print(f"Word {word} too long to fit on board!")
@@ -245,13 +255,24 @@ class Board:
         """
         return self.tile_in_horizontal_word(xpos, ypos, vertical = True)
 
-    def play_horizontal_word(self, word: str, x_pos: int, y_start: int):
+    def play_horizontal_word(self, player, word: str, x_pos: int, y_start: int):
         """
         play <word> vertically.
         x_pos represents the starting position on the X axis, y_start represents the position on the Y.
         Iteratively adds tiles down the Y axis until the end of the word is found.
         """
+        dictionary = Dictionary()
+        if not dictionary.valid_word(word):
+            print(f"INVALID WORD: {word}!")
+            return False
+
+        invalid = player.invalid_word(word)
+        if invalid:
+            player.print_msg()
+            return False
+
         points = 0
+        to_pop = []
         if y_start + len(word) > 15:
             print(f"Word {word} too long to fit on board!")
             return False
@@ -260,11 +281,22 @@ class Board:
             p = self.set_letter_position(tile, x_pos, y_start + i)
             if p is False:
                 continue
+            else:
+                to_pop.append(word[i])
             points += tile.get_points()
+
+        # Pop the played letters off
+        for t in to_pop:
+            player.hand.pop(t)
+        # Draw back to seven
+        player.draw_to_initial_hand()
+
         print(f"Played '{word}' for {points} points")
+        player.add_points(points)
+
         return points
 
-    def letter_in_word(self, xpos: int, ypos: int) -> dict:
+    def tile_in_word(self, xpos: int, ypos: int) -> dict:
         h = self.tile_in_horizontal_word(xpos, ypos)
         v = self.tile_in_vertical_word(xpos, ypos)
 
@@ -277,12 +309,12 @@ class Board:
 
     def get_pos(self, x_pos, y_pos):
         return self.grid[y_pos][x_pos]
+
     def __str__(self) -> str:
         """
         Print the board as a 15x15 square, with each letter played represented.
         """
         return self.print_board(silent = True)
-
 
 # * * * THE GLOBAL BOARD OBJECT * * *
 board = Board()

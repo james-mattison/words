@@ -16,8 +16,13 @@ class Dictionary:
 
     dictionaries = {}
 
-    def __init__(self, dictionary_directory_path: str):
+    def __init__(self, dictionary_directory_path: str = None):
+        if not dictionary_directory_path:
+            dictionary_directory_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "dictionaries")
         self.dictionaries_path = dictionary_directory_path
+        if not os.path.exists(dictionary_directory_path):
+            raise Exception(f"Dictionaries path {dictionary_directory_path} does not exist!")
+
         self._load_dictionaries()
 
     def _load_dictionaries(self):
