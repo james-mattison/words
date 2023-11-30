@@ -26,9 +26,7 @@ class Game:
         if not y_pos:
             y_pos = int(input("Y: "))
         if vertical is None:
-            vertical =  not input("Vertical? ").upper() in ["Y", "YES"]
-
-
+            vertical = input("Vertical? ").upper() in ["Y", "YES"]
         return x_pos, y_pos, vertical
 
 

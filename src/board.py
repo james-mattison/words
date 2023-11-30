@@ -13,14 +13,9 @@ class Board:
     Class representing the grid that is used to play the game.
     
     This class implements methods to manage the placement of tiles on the game board.
-    
-    Methods:
-      set_letter_placement <letter> <xpos> <ypos>
-        Place a Tile object that represents <letter> on the board at (xpos, ypos)
     """
 
     _played_coordinates = []
-
 
     def __init__(self, x_limit = 15, y_limit = 15):
         self.x = [n for n in range(15)]
@@ -66,14 +61,15 @@ class Board:
             fail(f"Already have tile {self.grid[y][x]} at x: {x}, y: {y}")
             return self.grid[y][x].get_points()
 
+        # TODO: Remove this, basic type check that should not be necessary.
         if not isinstance(letter, Tile):
             fail(f"Got wrong type for {letter} - expecting a Tile, but got {type(letter)} instead.", fatal = True)
             #letter = Tile(letter)
 
-        self.grid[y][x] = letter
-
         if not letter.is_played():
             letter.set_location(x, y)
+            self.grid[y][x] = letter
+
         return letter.get_points()
 
     def print_board(self, silent: bool = False) -> str:
@@ -115,7 +111,7 @@ class Board:
 
         # This word cannot be played because the player does not have the correct tiles in their hand,
         # ie, if the word is HAND and they are missing "H" and don't have a [BLANK] then we bail...
-        is_invalid = player.invalid_word(word)
+        is_invalid = player.has_required_tiles(word)
         if is_invalid:
             fail(f"{player.get_name()}'s had does not contain the proper tiles to play this word. Missing {','.join(is_invalid)}")
             return False
@@ -272,6 +268,16 @@ class Board:
         """
         return self.tile_in_horizontal_word(xpos, ypos, vertical = True)
 
+    def get_played_tiles_in_word(self, word, x_pos, y_pos, vertical = False):
+        played = []
+        for i, char in enumerate(word):
+            t = self.tile_in_horizontal_word(x_pos, y_pos, vertical = vertical)
+            if t:
+                played.append(t)
+            x_pos += 1      # applies for vertical as well, see the tile_in_horizontal_word func
+
+        return played
+
     def play_horizontal_word(self, player, word: str, x_pos: int, y_start: int):
         """
         play <word> horizontally.
@@ -282,7 +288,8 @@ class Board:
             print(f"INVALID WORD: {word}!")
             return False
 
-        invalid = player.invalid_word(word)
+
+        invalid = player.has_required_tiles(word)
         if invalid:
             player.print_msg()
             return False

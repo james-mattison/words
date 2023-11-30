@@ -64,12 +64,14 @@ class Player(object):
         """determine if we have this letter ot play"""
         return letter.upper() in self.hand.keys()
 
-    def invalid_word(self, word: str) -> bool:
+    def has_required_tiles(self, word: str) -> bool:
         """
         Determine whether all the letters on <word> are in the player's hand.
         """
         num_blanks = len([w for w in self.hand.keys() if w == "[BLANK]"])
         bad = []
+
+
         for char in word:
             if not char in self.hand.keys():
                 bad.append(char)
@@ -85,13 +87,7 @@ class Player(object):
     def get_score(self):
         return self.score
 
-    def play_word(self, word,  x_pos, y_pos, vertical = False):
-
-        missing = self.invalid_word(word)
-        if missing:
-            self.msg = red(f"Couldn't play word - missing letters {', '.join(missing)} from your hand!")
-            return False
-
+    def play_word(self, word, x_pos, y_pos, vertical = False):
 
         cb = board.play_horizontal_word
         if vertical:
