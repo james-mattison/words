@@ -12,7 +12,6 @@ class Game:
                  player1_name: str = None,
                  player2_name: str = None,
                  ):
-        self.dictionary = Dictionary()
         player1_name = player1_name or input("Player1 Name: ")
         player2_name = player2_name or input("Player2 Name: ")
         self.player1 = Player(player1_name)

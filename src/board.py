@@ -1,10 +1,12 @@
 from .tile import Tile, Tiles
 from .word import Word, Dictionary, Modifiers
+from .utils import *
 #
 # board.py
 #   This file contains the Board class, which is used to represent the grid for the game
 #   and the position of tiles relative to it.
 #
+
 
 class Board:
     """
@@ -48,21 +50,28 @@ class Board:
         if x > 15 or x < 0:
             print("Invalid x")
             return False
+
         if y > 15 or y < 0:
             print("Invalid y")
             return False
 
+        # Already have a letter on this tile - and it's not the same letter that we want to play. This is a no-go.
         if isinstance(self.grid[y][x], str) and self.grid[y][x] != letter and self.grid[y][x] != " ":
-            print(f"Already have letter {self.grid[x][y]}at {x},{y}")
+            fail(f"Already have letter {self.grid[x][y]}at {x},{y}")
             return False
+
+        # Already have a letter on this position, but it _is_ the letter that we want to play. Return the points
+        # that this letter would garner.
         if isinstance(letter, Tile) and self.grid[y][x].get_letter() != " " and self.grid[y][x].get_letter() != letter.get_letter():
-            print(f"Already have tile {self.grid[y][x]} at x: {x}, y: {y}")
-            print("FUCK")
+            fail(f"Already have tile {self.grid[y][x]} at x: {x}, y: {y}")
             return self.grid[y][x].get_points()
 
         if not isinstance(letter, Tile):
-            letter = Tile(letter)
-        self.grid[y][x]= letter
+            fail(f"Got wrong type for {letter} - expecting a Tile, but got {type(letter)} instead.", fatal = True)
+            #letter = Tile(letter)
+
+        self.grid[y][x] = letter
+
         if not letter.is_played():
             letter.set_location(x, y)
         return letter.get_points()
@@ -99,19 +108,27 @@ class Board:
 
         """
 
-        dictionary = Dictionary()
-        if not dictionary.valid_word(word):
-            print(f"INVALID WORD: {word}!")
-            return 0
-
-        if player.invalid_word(word):
-            player.print_msg()
+        # This word is not in the dictionary, and therefore is not allowed.
+        if not Dictionary().valid_word(word):
+            fail(f"Word not in dictionary: {word}!")
             return False
 
+        # This word cannot be played because the player does not have the correct tiles in their hand,
+        # ie, if the word is HAND and they are missing "H" and don't have a [BLANK] then we bail...
+        is_invalid = player.invalid_word(word)
+        if is_invalid:
+            fail(f"{player.get_name()}'s had does not contain the proper tiles to play this word. Missing {','.join(is_invalid)}")
+            return False
+
+        # We have a valid word, and we know the player has the proper Tiles to play it.
         points = 0
+
+        # Word will fall off of the right side of the screen!
         if x_start + len(word) > 15:
             print(f"Word {word} too long to fit on board!")
             return False
+
+        # Convert the characters in the word to Tile objects
         for i in range(len(word)):
             tile = Tile(word[i])
             num_points = self.set_letter_position(tile, x_start + i, y_pos)
@@ -119,7 +136,7 @@ class Board:
             if num_points is not False:
                 points += tile.get_points()
             else:
-                print(f"ASSIGNED FALSE BECAUSS {tile} on {x_start + 1}, {y_pos} is not worth shit.")
+                print(f"ASSIGNED FALSE BECAUSE {tile} on {x_start + 1}, {y_pos} is not worth shit.")
         print(f"Played '{word}' for {points} points.")
         return points
 
@@ -257,12 +274,11 @@ class Board:
 
     def play_horizontal_word(self, player, word: str, x_pos: int, y_start: int):
         """
-        play <word> vertically.
+        play <word> horizontally.
         x_pos represents the starting position on the X axis, y_start represents the position on the Y.
         Iteratively adds tiles down the Y axis until the end of the word is found.
         """
-        dictionary = Dictionary()
-        if not dictionary.valid_word(word):
+        if not Dictionary().valid_word(word):
             print(f"INVALID WORD: {word}!")
             return False
 
@@ -297,6 +313,9 @@ class Board:
         return points
 
     def tile_in_word(self, xpos: int, ypos: int) -> dict:
+        """
+        IS the specificed xpos, ypos occupied by a non-blank tile?
+        """
         h = self.tile_in_horizontal_word(xpos, ypos)
         v = self.tile_in_vertical_word(xpos, ypos)
 

@@ -2,6 +2,14 @@ from .tile import Tiles
 from .board import board
 from .utils import *
 
+"""
+player.py                  
+---------
+
+This file defines the Player class, which represents a player in the 
+Words game.
+"""
+
 
 class Player(object):
 
@@ -13,12 +21,11 @@ class Player(object):
         self.hand = {}
         self.score = 0
         self.msg = ""
-
         self.draw_to_initial_hand()
 
     def __str__(self):
         s = "+" + ("-" * 38) + "+\n"
-        s+= "|{:^38}|\n".format(self.get_name())
+        s += "|{:^38}|\n".format(self.get_name())
 
         hand = "".join(self.get_letters())
         hand = hand.replace("[BLANK]", "\u001b[43;1m*\u001b[0m")
@@ -31,7 +38,8 @@ class Player(object):
         s += "+" + ("-" * 38) + "+\n"
         return s
 
-    def get_name(self):
+    def get_name(self) -> str:
+        """ Return the name of the Player"""
         return self.name
 
     def print_msg(self):
